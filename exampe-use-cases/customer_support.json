@@ -1,0 +1,19 @@
+{
+  "name": "Customer Support AI Assistant",
+  "business_owner": "Customer Support Director",
+  "purpose": "Summarize customer conversations and suggest responses to support agents.",
+  "data_processed": [
+    "customer names",
+    "account information",
+    "support tickets",
+    "conversation history"
+  ],
+  "ai_provider": "Third-party hosted LLM API",
+  "human_oversight": "A human support agent reviews the generated response before sending it to the customer.",
+  "logging_monitoring": "Not specified",
+  "access_controls": "Not specified",
+  "third_party_security_assessment": "Not specified",
+  "intended_use": "Summarize support conversations and suggest draft responses.",
+  "limitations": "Not specified",
+  "risk_level": "Not specified"
+}
