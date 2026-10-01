@@ -1,10 +1,11 @@
 import json
-
+from dotenv import load_dotenv
 from openai import OpenAI
 
 from .models import Assessment
 from .requirements import REQUIREMENTS
 
+load_dotenv()
 
 SYSTEM_PROMPT = """
 You are an AI security assessment analyst.
