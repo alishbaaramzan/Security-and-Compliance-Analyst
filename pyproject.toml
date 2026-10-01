@@ -7,6 +7,8 @@ dependencies = [
     "openai",
     "pydantic",
     "python-dotenv",
+    "fastapi",
+    "uvicorn",
 ]
 
 [project.scripts]

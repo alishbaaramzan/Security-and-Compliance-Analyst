@@ -1,29 +1,46 @@
 import json
-import sys
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 from .agent import SecurityAnalyst
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        print("Usage: uv run analyst <use-case.json>")
-        raise SystemExit(1)
+app = FastAPI(title="AI Security Analyst")
 
-    input_path = sys.argv[1]
+analyst = SecurityAnalyst()
 
-    with open(input_path, encoding="utf-8") as file:
-        use_case = json.load(file)
+WEB_DIR = Path(__file__).parent / "web"
 
-    analyst = SecurityAnalyst()
 
-    assessment = analyst.assess(use_case)
+class AssessmentRequest(BaseModel):
+    use_case: dict
 
-    print(
-        assessment.model_dump_json(
-            indent=2
+
+@app.get("/")
+def index():
+    return FileResponse(WEB_DIR / "index.html")
+
+
+@app.post("/assess")
+def assess(request: AssessmentRequest):
+    try:
+        assessment = analyst.assess(request.use_case)
+
+        return assessment.model_dump()
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=str(exc),
         )
-    )
 
 
-if __name__ == "__main__":
-    main()
+app.mount(
+    "/static",
+    StaticFiles(directory=WEB_DIR),
+    name="static",
+)
