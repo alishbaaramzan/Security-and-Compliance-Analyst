@@ -1,0 +1,20 @@
+[project]
+name = "ai-security-analyst"
+version = "0.1.0"
+description = "AI security assessment agent for internal AI use cases"
+requires-python = ">=3.11"
+dependencies = [
+    "openai",
+    "pydantic",
+]
+
+[project.scripts]
+analyst = "analyst.main:main"
+
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "analyst"
+module-root = "src"
