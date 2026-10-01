@@ -101,6 +101,26 @@ class SecurityAnalyst:
             "gpt-5.6-luna",
         )
 
+    def convert_text_to_use_case(self, text: str) -> dict:
+        """
+        Convert free-form text describing an AI use case into a JSON
+        dict, so plain-text submissions can flow through the same
+        assessment path as JSON submissions.
+        """
+
+        response = self.client.responses.create(
+            model=self.model,
+            instructions=(
+                "Convert the user's plain-text description of an AI "
+                "use case into a JSON object capturing the relevant "
+                "details (e.g. name, description, data used, users, "
+                "third parties involved). Respond with JSON only."
+            ),
+            input=[{"role": "user", "content": text}],
+        )
+
+        return json.loads(response.output_text)
+
     def assess(self, use_case: dict) -> Assessment:
         """
         Run the agentic assessment loop.

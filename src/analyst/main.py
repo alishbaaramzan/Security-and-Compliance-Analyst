@@ -17,7 +17,7 @@ WEB_DIR = Path(__file__).parent / "web"
 
 
 class AssessmentRequest(BaseModel):
-    use_case: dict
+    use_case: str
 
 
 @app.get("/")
@@ -28,7 +28,12 @@ def index():
 @app.post("/assess")
 def assess(request: AssessmentRequest):
     try:
-        assessment = analyst.assess(request.use_case)
+        try:
+            use_case = json.loads(request.use_case)
+        except json.JSONDecodeError:
+            use_case = analyst.convert_text_to_use_case(request.use_case)
+
+        assessment = analyst.assess(use_case)
 
         return assessment.model_dump()
 

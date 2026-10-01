@@ -13,14 +13,7 @@ button.addEventListener("click", async () => {
 
     errorMessage.textContent = "";
 
-    let useCase;
-
-    try {
-        useCase = JSON.parse(useCaseInput.value);
-    } catch {
-        errorMessage.textContent = "Invalid JSON.";
-        return;
-    }
+    const useCase = useCaseInput.value;
 
     button.disabled = true;
     button.textContent = "Assessing...";
